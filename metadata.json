@@ -1,0 +1,5 @@
+{
+  "name": "Tet Family Reunion Video Generator",
+  "description": "An application for P/S's Tet marketing campaign where users can upload pictures of family members to create a unified family photo and then animate it into a short, festive video with sound.",
+  "requestFramePermissions": []
+}
