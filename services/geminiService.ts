@@ -1,6 +1,6 @@
 import { GoogleGenAI, Modality, GenerateContentResponse } from "@google/genai";
-import { fileToBase64 } from "../utils/fileUtils";
-import { IMAGE_GENERATION_PROMPT, VIDEO_GENERATION_PROMPT, API_KEY } from '../constants';
+import { fileToBase64 } from "../utils/fileUtils.ts";
+import { IMAGE_GENERATION_PROMPT, VIDEO_GENERATION_PROMPT, API_KEY } from '../constants.ts';
 
 export const generateFamilyPhoto = async (files: File[]): Promise<string> => {
     const ai = new GoogleGenAI({ apiKey: API_KEY });

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { UploadedFile } from '../types';
-import { generateFamilyPhoto } from '../services/geminiService';
-import ImageUploader from './ImageUploader';
-import Loader from './Loader';
+import { UploadedFile } from '../types.ts';
+import { generateFamilyPhoto } from '../services/geminiService.ts';
+import ImageUploader from './ImageUploader.tsx';
+import Loader from './Loader.tsx';
 
 interface Step1Props {
     onPhotoGenerated: (base64Image: string, mimeType: string, numFiles: number) => void;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UploadedFile } from '../types';
+import { UploadedFile } from '../types.ts';
 
 interface ImageUploaderProps {
     files: UploadedFile[];

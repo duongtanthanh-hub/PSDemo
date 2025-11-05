@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { AppStep } from './types';
-import Header from './components/Header';
-import Step1 from './components/Step1';
-import Step2 from './components/Step2';
+import { AppStep } from './types.ts';
+import Header from './components/Header.tsx';
+import Step1 from './components/Step1.tsx';
+import Step2 from './components/Step2.tsx';
 
 const App: React.FC = () => {
     const [step, setStep] = useState<AppStep>(AppStep.CREATE_PHOTO);

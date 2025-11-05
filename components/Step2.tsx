@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { generateFamilyVideo } from '../services/geminiService';
-import { VIDEO_LOADING_MESSAGES, API_KEY } from '../constants';
-import Loader from './Loader';
+import { generateFamilyVideo } from '../services/geminiService.ts';
+import { VIDEO_LOADING_MESSAGES, API_KEY } from '../constants.ts';
+import Loader from './Loader.tsx';
 
 interface Step2Props {
     generatedImage: string;
