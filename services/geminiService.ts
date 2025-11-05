@@ -1,9 +1,9 @@
 import { GoogleGenAI, Modality, GenerateContentResponse } from "@google/genai";
 import { fileToBase64 } from "../utils/fileUtils";
-import { IMAGE_GENERATION_PROMPT, VIDEO_GENERATION_PROMPT } from '../constants';
+import { IMAGE_GENERATION_PROMPT, VIDEO_GENERATION_PROMPT, API_KEY } from '../constants';
 
 export const generateFamilyPhoto = async (files: File[]): Promise<string> => {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey: API_KEY });
     
     const imageParts = await Promise.all(
         files.map(async (file) => {
@@ -39,7 +39,7 @@ export const generateFamilyPhoto = async (files: File[]): Promise<string> => {
 };
 
 export async function* generateFamilyVideo(base64Image: string, imageMimeType: string, numFamilyMembers: number) {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey: API_KEY });
 
     yield 'Initializing video creation...';
 

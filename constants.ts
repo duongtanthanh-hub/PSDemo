@@ -1,3 +1,5 @@
+export const API_KEY = 'AIzaSyCqZ47xLqhKHgyXWTFMi_2MBv9-IOoy8yo';
+
 export const IMAGE_GENERATION_PROMPT = `
 Please generate a single, new, photorealistic image that combines the people from all the uploaded reference images.
 

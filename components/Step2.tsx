@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { generateFamilyVideo } from '../services/geminiService';
-import { VIDEO_LOADING_MESSAGES } from '../constants';
+import { VIDEO_LOADING_MESSAGES, API_KEY } from '../constants';
 import Loader from './Loader';
 
 interface Step2Props {
@@ -50,7 +50,7 @@ const Step2: React.FC<Step2Props> = ({ generatedImage, imageMimeType, onStartOve
                     setLoadingMessage(update);
                 } else if (typeof update === 'object' && update.videoUri) {
                     setLoadingMessage('Fetching your video...');
-                    const fullUri = `${update.videoUri}&key=${process.env.API_KEY}`;
+                    const fullUri = `${update.videoUri}&key=${API_KEY}`;
                     const videoResponse = await fetch(fullUri);
                     const videoBlob = await videoResponse.blob();
                     const videoObjectUrl = URL.createObjectURL(videoBlob);
