@@ -1,1 +1,10 @@
-// This file is deprecated and not used. The application uses types.ts.
+export enum AppStep {
+  CREATE_PHOTO = 1,
+  CREATE_VIDEO = 2,
+}
+
+export interface UploadedFile {
+  id: string;
+  file: File;
+  preview: string;
+}
