@@ -65,7 +65,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ files, onFilesChange }) =
                 onDragLeave={handleDragLeave}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
-                className={`border-4 border-dashed rounded-xl p-6 text-center transition-all duration-300 ${isDragging ? 'border-red-500 bg-red-50' : 'border-gray-300'} ${isDisabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
+                className={`border-4 border-dashed rounded-xl p-6 text-center transition-all duration-300 ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'} ${isDisabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
             >
                 <input
                     type="file"
@@ -80,7 +80,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ files, onFilesChange }) =
                     <div className="flex flex-col items-center">
                          <svg xmlns="http://www.w3.org/2000/svg" className={`h-12 w-12 ${isDisabled ? 'text-gray-400' : 'text-gray-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
                         <p className={`mt-2 text-sm ${isDisabled ? 'text-gray-500' : 'text-gray-600'}`}>
-                            <span className={`font-semibold ${isDisabled ? 'text-gray-500' : 'text-red-600'}`}>
+                            <span className={`font-semibold ${isDisabled ? 'text-gray-500' : 'text-blue-600'}`}>
                                 {isDisabled ? `Maximum ${MAX_FILES} files reached` : 'Click to upload'}
                             </span>
                             {!isDisabled && ' or drag and drop'}

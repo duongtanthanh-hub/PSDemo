@@ -1,20 +1,90 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# P/S Tet Reunion Video Maker
 
-# Run and deploy your AI Studio app
+This web application was created for the P/S Tet marketing campaign. It allows users to upload individual photos of family members, which are then combined by AI into a single, festive family portrait. The generated portrait can then be animated into a short video, complete with subtle movements and celebratory sounds, perfect for sharing during the Tet holiday.
 
-This contains everything you need to run your app locally.
+## ✨ Features
 
-View your app in AI Studio: https://aistudio-preprod.corp.google.com/apps/drive/1-4XyXeaHgyk-WTuwhqr8cfFnx1ArVZHr?resourceKey=0-aBErK0qUrrG2kldMCu-Biw
+*   **AI Family Portrait:** Upload up to 5 individual photos and have the Gemini AI model merge them into a cohesive family picture set in a traditional Tet meal scene.
+*   **AI Video Animation:** Bring the generated photo to life with a high-definition 8-second video created by the Veo AI model.
+*   **Festive Atmosphere:** The generated video includes subtle animations, happy background laughter, and gentle Tet-themed music.
+*   **Automatic Watermarking:** Every generated photo is automatically watermarked with the P/S logo.
+*   **Responsive Design:** A clean, user-friendly interface that works on both desktop and mobile devices.
 
-## Run Locally
+## 🛠️ Technology Stack
 
-**Prerequisites:**  Node.js
+*   **Frontend:** React, TypeScript, Tailwind CSS
+*   **AI / Machine Learning:** Google Gemini API
+    *   **Image Generation:** `gemini-2.5-flash-image`
+    *   **Video Generation:** `veo-3.1-fast-generate-preview`
+*   **Environment:** The app is built as a static site and uses Babel Standalone for in-browser JSX/TSX transpilation, requiring no build step.
 
+## 🚀 Getting Started
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+This project is a static web application and can be run by serving the files with any simple web server.
+
+### Prerequisites
+
+*   A modern web browser.
+*   A Google AI API Key. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey). Please note that using the Video Generation (Veo) model is a paid feature. Refer to the [billing documentation](https://ai.google.dev/gemini-api/docs/billing) for more details.
+
+### Local Installation & Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/ps-tet-video-maker.git
+    cd ps-tet-video-maker
+    ```
+
+2.  **Configure API Key:**
+    The application code refers to `process.env.API_KEY` to access the Google AI API Key. In the original deployment environment, this is injected automatically. For local development, you must manually replace it.
+
+    **⚠️ IMPORTANT: Do not commit your API key to your repository.**
+
+    Find all instances of `process.env.API_KEY` in the codebase (specifically in `services/geminiService.ts` and `components/Step2.tsx`) and replace them with your actual API key string.
+
+    *Example (in `services/geminiService.ts`):*
+    ```typescript
+    // Before
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+    // After
+    const ai = new GoogleGenAI({ apiKey: 'YOUR_API_KEY_HERE' });
+    ```
+
+3.  **Run a Local Server:**
+    You can use any static file server. A simple one comes with Python:
+    ```bash
+    # If you have Python 3
+    python -m http.server
+    ```
+    Alternatively, you can use a tool like the [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) for Visual Studio Code.
+
+4.  **Open the App:**
+    Navigate to `http://localhost:8000` (or the port your server is running on) in your web browser.
+
+## 📁 Project Structure
+
+```
+.
+├── components/         # React components for different parts of the UI
+│   ├── ApiKeySelector.tsx
+│   ├── Header.tsx
+│   ├── ImageUploader.tsx
+│   ├── Loader.tsx
+│   ├── Step1.tsx
+│   └── Step2.tsx
+├── services/           # Services for interacting with external APIs (Gemini)
+│   └── geminiService.ts
+├── utils/              # Utility functions
+│   └── fileUtils.ts
+├── App.tsx             # Main application component, manages state and steps
+├── constants.ts        # Project constants (prompts, messages, etc.)
+├── index.html          # The main HTML entry point
+├── index.tsx           # The root of the React application
+├── metadata.json       # Application metadata
+└── types.ts            # TypeScript type definitions
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
