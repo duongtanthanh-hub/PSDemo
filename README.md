@@ -36,20 +36,13 @@ This project is a static web application and can be run by serving the files wit
     ```
 
 2.  **Configure API Key:**
-    The application code refers to `process.env.API_KEY` to access the Google AI API Key. In the original deployment environment, this is injected automatically. For local development, you must manually replace it.
+    The application code requires a Google AI API Key to function. You must manually add it to the project.
 
-    **⚠️ IMPORTANT: Do not commit your API key to your repository.**
+    1.  Open the `constants.ts` file.
+    2.  Find the line: `export const API_KEY = 'YOUR_API_KEY_HERE';`
+    3.  Replace `'YOUR_API_KEY_HERE'` with your actual API key string.
 
-    Find all instances of `process.env.API_KEY` in the codebase (specifically in `services/geminiService.ts` and `components/Step2.tsx`) and replace them with your actual API key string.
-
-    *Example (in `services/geminiService.ts`):*
-    ```typescript
-    // Before
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
-    // After
-    const ai = new GoogleGenAI({ apiKey: 'YOUR_API_KEY_HERE' });
-    ```
+    **⚠️ IMPORTANT: Do not commit your API key to a public repository.**
 
 3.  **Run a Local Server:**
     You can use any static file server. A simple one comes with Python:
@@ -67,7 +60,6 @@ This project is a static web application and can be run by serving the files wit
 ```
 .
 ├── components/         # React components for different parts of the UI
-│   ├── ApiKeySelector.tsx
 │   ├── Header.tsx
 │   ├── ImageUploader.tsx
 │   ├── Loader.tsx
@@ -78,7 +70,7 @@ This project is a static web application and can be run by serving the files wit
 ├── utils/              # Utility functions
 │   └── fileUtils.ts
 ├── App.tsx             # Main application component, manages state and steps
-├── constants.ts        # Project constants (prompts, messages, etc.)
+├── constants.ts        # Project constants (prompts, messages, API_KEY etc.)
 ├── index.html          # The main HTML entry point
 ├── index.tsx           # The root of the React application
 ├── metadata.json       # Application metadata

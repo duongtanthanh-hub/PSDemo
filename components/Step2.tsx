@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { generateFamilyVideo } from '../services/geminiService.ts';
-// FIX: Removed API_KEY import to use environment variables instead.
-import { VIDEO_LOADING_MESSAGES } from '../constants.ts';
+import { VIDEO_LOADING_MESSAGES, API_KEY } from '../constants.ts';
 import Loader from './Loader.tsx';
 
 interface Step2Props {
@@ -51,8 +50,7 @@ const Step2: React.FC<Step2Props> = ({ generatedImage, imageMimeType, onStartOve
                     setLoadingMessage(update);
                 } else if (typeof update === 'object' && update.videoUri) {
                     setLoadingMessage('Fetching your video...');
-                    // FIX: Used environment variable for API key when fetching the video.
-                    const fullUri = `${update.videoUri}&key=${process.env.API_KEY}`;
+                    const fullUri = `${update.videoUri}&key=${API_KEY}`;
                     const videoResponse = await fetch(fullUri);
                     if (!videoResponse.ok) {
                         throw new Error(`Failed to fetch video: ${videoResponse.statusText}`);
@@ -68,9 +66,9 @@ const Step2: React.FC<Step2Props> = ({ generatedImage, imageMimeType, onStartOve
             console.error(e);
             let errorMessage = e instanceof Error ? e.message : 'An unknown error occurred during video generation.';
             if (typeof errorMessage === 'string' && (errorMessage.includes('RESOURCE_EXHAUSTED') || errorMessage.includes('quota'))) {
-                errorMessage = 'You have exceeded your API quota. Please check your plan and billing details. You may need to refresh the page to select a different API key.';
-            } else if (typeof errorMessage === 'string' && errorMessage.includes('Requested entity was not found')) {
-                errorMessage = 'The API key is invalid or not found. Please refresh the page to select a different API key.';
+                errorMessage = 'You have exceeded your API quota. Please check your plan and billing details.';
+            } else if (typeof errorMessage === 'string' && (errorMessage.includes('API key not valid'))) {
+                errorMessage = 'The API key is invalid. Please check the API_KEY constant in the constants.ts file.';
             }
             setError(errorMessage);
             setIsLoading(false);

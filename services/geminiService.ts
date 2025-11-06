@@ -1,7 +1,6 @@
 import { GoogleGenAI, Modality, GenerateContentResponse } from "@google/genai";
 import { fileToBase64 } from "../utils/fileUtils.ts";
-// FIX: Removed API_KEY import to use environment variables instead.
-import { IMAGE_GENERATION_PROMPT, VIDEO_GENERATION_PROMPT } from '../constants.ts';
+import { IMAGE_GENERATION_PROMPT, VIDEO_GENERATION_PROMPT, API_KEY } from '../constants.ts';
 
 /**
  * Generates a single family photo by combining multiple individual photos using the Gemini AI model.
@@ -10,8 +9,7 @@ import { IMAGE_GENERATION_PROMPT, VIDEO_GENERATION_PROMPT } from '../constants.t
  * @throws Will throw an error if the image generation fails or the API does not return an image.
  */
 export const generateFamilyPhoto = async (files: File[]): Promise<string> => {
-    // FIX: Initialized GoogleGenAI within the function to ensure the latest API key is used.
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey: API_KEY });
     const numFamilyMembers = files.length;
     const imageParts = await Promise.all(
         files.map(async (file) => {
@@ -62,8 +60,7 @@ ${IMAGE_GENERATION_PROMPT}
  * @throws Will throw an error if the video generation fails, polling fails, or no video URI is returned.
  */
 export async function* generateFamilyVideo(base64Image: string, imageMimeType: string, numFamilyMembers: number) {
-    // FIX: Initialized GoogleGenAI within the function to ensure the latest API key is used.
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey: API_KEY });
 
     yield 'Initializing video creation...';
 

@@ -1,4 +1,6 @@
-
+// IMPORTANT: Replace with your actual Google AI API key.
+// You can get one from Google AI Studio: https://aistudio.google.com/app/apikey
+export const API_KEY = 'YOUR_API_KEY_HERE';
 
 // FIX: Added PS_LOGO_BASE64 to resolve import error. It was being imported in other files but was not defined.
 export const PS_LOGO_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
