@@ -1,6 +1,6 @@
 import { GoogleGenAI, Modality } from "@google/genai";
 import { fileToBase64 } from "../utils/fileUtils.ts";
-import { IMAGE_GENERATION_PROMPT, VIDEO_GENERATION_PROMPT, API_KEY } from '../constants.ts';
+import { IMAGE_GENERATION_PROMPT, VIDEO_GENERATION_PROMPT } from '../constants.ts';
 
 /**
  * Generates a single family photo by combining multiple individual photos using the Gemini AI model.
@@ -9,7 +9,7 @@ import { IMAGE_GENERATION_PROMPT, VIDEO_GENERATION_PROMPT, API_KEY } from '../co
  * @throws Will throw an error if the image generation fails or the API does not return an image.
  */
 export const generateFamilyPhoto = async (files: File[]): Promise<string> => {
-    const ai = new GoogleGenAI({ apiKey: API_KEY });
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const numFamilyMembers = files.length;
     const imageParts = await Promise.all(
         files.map(async (file) => {
@@ -60,14 +60,14 @@ ${IMAGE_GENERATION_PROMPT}
  * @throws Will throw an error if the video generation fails, polling fails, or no video URI is returned.
  */
 export async function* generateFamilyVideo(base64Image: string, imageMimeType: string, numFamilyMembers: number): AsyncGenerator<string | { videoUri: string }> {
-    const ai = new GoogleGenAI({ apiKey: API_KEY });
-
     yield 'Initializing video creation...';
 
     const dynamicVideoPrompt = `
 Ensure there are exactly ${numFamilyMembers} people in the video, corresponding to the number of uploaded photos.
 ${VIDEO_GENERATION_PROMPT}
 `;
+    // Instantiate AI right before the API call for Veo
+    let ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
     let operation = await ai.models.generateVideos({
         model: 'veo-3.1-fast-generate-preview',
@@ -90,10 +90,15 @@ ${VIDEO_GENERATION_PROMPT}
     while (!operation.done) {
         await new Promise(resolve => setTimeout(resolve, pollingInterval));
         try {
+            // Re-instantiate AI for polling to get latest key
+            ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             operation = await ai.operations.getVideosOperation({ operation: operation });
             yield 'Bringing your family photo to life...';
         } catch (e) {
             console.error("Polling error:", e);
+            if (e instanceof Error && e.message.includes("Requested entity was not found.")) {
+                throw new Error("API key selection error. Please try selecting your key again.");
+            }
             throw e;
         }
     }

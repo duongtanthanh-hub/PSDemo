@@ -1,14 +1,1 @@
-
-
-export const fileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            const result = reader.result;
-            // remove 'data:mime/type;base64,' prefix
-            resolve(result.split(',')[1]);
-        };
-        reader.onerror = (error) => reject(error);
-    });
-};
+// This file is deprecated and not used. The application uses utils/fileUtils.ts.

@@ -25,7 +25,7 @@ This project is a static web application and can be run by serving the files wit
 ### Prerequisites
 
 *   A modern web browser.
-*   A Google AI API Key. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey). Please note that using the Video Generation (Veo) model is a paid feature. Refer to the [billing documentation](https://ai.google.dev/gemini-api/docs/billing) for more details.
+*   A Google AI API Key with billing enabled for using the Video Generation (Veo) model. Please refer to the [billing documentation](https://ai.google.dev/gemini-api/docs/billing) for more details. The application will prompt you to select your key when needed.
 
 ### Local Installation & Setup
 
@@ -35,16 +35,7 @@ This project is a static web application and can be run by serving the files wit
     cd ps-tet-video-maker
     ```
 
-2.  **Configure API Key:**
-    The application code requires a Google AI API Key to function. You must manually add it to the project.
-
-    1.  Open the `constants.ts` file.
-    2.  Find the line: `export const API_KEY = 'YOUR_API_KEY_HERE';`
-    3.  Replace `'YOUR_API_KEY_HERE'` with your actual API key string.
-
-    **⚠️ IMPORTANT: Do not commit your API key to a public repository.**
-
-3.  **Run a Local Server:**
+2.  **Run a Local Server:**
     You can use any static file server. A simple one comes with Python:
     ```bash
     # If you have Python 3
@@ -52,7 +43,7 @@ This project is a static web application and can be run by serving the files wit
     ```
     Alternatively, you can use a tool like the [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) for Visual Studio Code.
 
-4.  **Open the App:**
+3.  **Open the App:**
     Navigate to `http://localhost:8000` (or the port your server is running on) in your web browser.
 
 ## 📁 Project Structure
@@ -70,7 +61,7 @@ This project is a static web application and can be run by serving the files wit
 ├── utils/              # Utility functions
 │   └── fileUtils.ts
 ├── App.tsx             # Main application component, manages state and steps
-├── constants.ts        # Project constants (prompts, messages, API_KEY etc.)
+├── constants.ts        # Project constants (prompts, messages, etc.)
 ├── index.html          # The main HTML entry point
 ├── index.tsx           # The root of the React application
 ├── metadata.json       # Application metadata

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { generateFamilyVideo } from '../services/geminiService.ts';
-import { VIDEO_LOADING_MESSAGES, API_KEY } from '../constants.ts';
+import { VIDEO_LOADING_MESSAGES } from '../constants.ts';
 import Loader from './Loader.tsx';
 
 interface Step2Props {
@@ -44,13 +44,19 @@ const Step2: React.FC<Step2Props> = ({ generatedImage, imageMimeType, onStartOve
         setLoadingMessage('Initializing video creation...');
 
         try {
+            const hasKey = await window.aistudio.hasSelectedApiKey();
+            if (!hasKey) {
+                await window.aistudio.openSelectKey();
+                // Assume success and proceed. The service will use the new key.
+            }
+
             const videoGenerator = generateFamilyVideo(generatedImage, imageMimeType, numFamilyMembers);
             for await (const update of videoGenerator) {
                 if (typeof update === 'string') {
                     setLoadingMessage(update);
                 } else if (typeof update === 'object' && update.videoUri) {
                     setLoadingMessage('Fetching your video...');
-                    const fullUri = `${update.videoUri}&key=${API_KEY}`;
+                    const fullUri = `${update.videoUri}&key=${process.env.API_KEY}`;
                     const videoResponse = await fetch(fullUri);
                     if (!videoResponse.ok) {
                         throw new Error(`Failed to fetch video: ${videoResponse.statusText}`);
@@ -64,13 +70,17 @@ const Step2: React.FC<Step2Props> = ({ generatedImage, imageMimeType, onStartOve
             }
         } catch (e: any) {
             console.error(e);
-            let errorMessage = e instanceof Error ? e.message : 'An unknown error occurred during video generation.';
-            if (typeof errorMessage === 'string' && (errorMessage.includes('RESOURCE_EXHAUSTED') || errorMessage.includes('quota'))) {
-                errorMessage = 'You have exceeded your API quota. Please check your plan and billing details.';
-            } else if (typeof errorMessage === 'string' && (errorMessage.includes('API key not valid'))) {
-                errorMessage = 'The API key is invalid. Please check the API_KEY constant in the constants.ts file.';
+            const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred during video generation.';
+            
+            if (errorMessage.includes("API key selection error")) {
+                setError("There was an issue with your API key. Please try generating the video again to re-select your key.");
+            } else if (errorMessage.includes('RESOURCE_EXHAUSTED') || errorMessage.includes('quota')) {
+                setError('You have exceeded your API quota. Please check your plan and billing details.');
+            } else if (errorMessage.includes('API key not valid')) {
+                setError('The API key is invalid. Please try generating the video again to re-select your key.');
+            } else {
+                setError(errorMessage);
             }
-            setError(errorMessage);
             setIsLoading(false);
         }
     };
@@ -81,6 +91,11 @@ const Step2: React.FC<Step2Props> = ({ generatedImage, imageMimeType, onStartOve
                 <h2 className="text-3xl font-bold text-[#002B5B]">Step 2: Animate Your Family Photo</h2>
                 <p className="mt-2 text-gray-600">Let's bring your family portrait to life with subtle motion and festive sounds!</p>
             </div>
+
+            <p className="text-center text-sm text-gray-600 mb-4 bg-blue-50 p-3 rounded-lg border border-blue-200">
+                Video generation uses the Veo model, which is a paid feature. Please ensure you have selected an API key with billing enabled.
+                For more information, see the <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">billing documentation</a>.
+            </p>
 
             {error && <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-200 rounded-lg">{error}</div>}
 
